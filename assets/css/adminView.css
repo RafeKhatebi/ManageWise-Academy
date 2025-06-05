@@ -1,0 +1,165 @@
+.content center {
+    overflow-x: auto;
+    padding: 1rem;
+}
+
+/* Table styling */
+table {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    border-collapse: collapse;
+    background-color: rgb(193, 231, 241);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Borders */
+table, th, td {
+    border: 1px solid #333;
+}
+
+/* Header cells */
+table tr th {
+    padding: 15px 20px;
+    font-size: 16px;
+    font-weight: 700;
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+    /* user-select: none; */
+}
+
+/* Data cells */
+table tr td {
+    padding: 15px 20px;
+    color: #181809;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* Teacher image */
+.teacher {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin: 0 auto;
+    display: block;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+/* Buttons styling */
+.btn-danger, .btn-primary {
+    padding: 6px 14px;
+    font-size: 14px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    border: none;
+}
+
+/* Danger button */
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #b02a37;
+}
+
+/* Primary button */
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    table {
+        max-width: 100%;
+        font-size: 13px;
+    }
+
+    table tr th, table tr td {
+        padding: 10px 8px;
+    }
+
+    .teacher {
+        width: 90px;
+        height: 90px;
+    }
+
+    .btn-danger, .btn-primary {
+        padding: 5px 10px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Stack table rows as blocks for very small screens */
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+
+    thead tr {
+        display: none; /* Hide table headers */
+    }
+
+    tr {
+        margin-bottom: 1.25rem;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 10px;
+        background-color: #e9f5fb;
+    }
+
+    td {
+        text-align: right;
+        padding-left: 50%;
+        position: relative;
+        font-size: 14px;
+        border: none;
+        border-bottom: 1px solid #ddd;
+    }
+
+    td:last-child {
+        border-bottom: 0;
+    }
+
+    td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 15px;
+        width: 45%;
+        padding-left: 10px;
+        font-weight: 600;
+        text-align: left;
+        white-space: nowrap;
+    }
+
+    /* Adjust image size */
+    .teacher {
+        width: 100%;
+        height: auto;
+        margin: 0 0 10px 0;
+    }
+
+    /* Buttons full width */
+    .btn-danger, .btn-primary {
+        width: 100%;
+        margin-bottom: 5px;
+        text-align: center;
+    }
+}
+
+    

@@ -1,0 +1,104 @@
+
+.content center {
+    overflow-x: auto;
+    padding: 1rem;
+}
+
+/* Table styling */
+table {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    border-collapse: collapse;
+    background-color: #f1f1c1;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Borders */
+table, th, td {
+    border: 1px solid #333;
+}
+
+/* Header cells */
+table tr th {
+    padding: 15px 20px;
+    font-size: 16px;
+    font-weight: 700;
+    background-color: #6c757d; /* Bootstrap secondary color */
+    color: white;
+    text-align: center;
+    /* user-select: none; */
+}
+
+/* Data cells */
+table tr td {
+    padding: 15px 20px;
+    color: #181809;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* Zebra striping for rows */
+table tr:nth-child(even) {
+    background-color: #e9e9b8;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    table {
+        max-width: 100%;
+        font-size: 14px;
+    }
+
+    table tr th, table tr td {
+        padding: 12px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Stack table rows as blocks for very small screens */
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+
+    thead tr {
+        display: none; /* Hide table headers */
+    }
+
+    tr {
+        margin-bottom: 1.25rem;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 10px;
+        background-color: #f7f7d3;
+    }
+
+    td {
+        text-align: right;
+        padding-left: 50%;
+        position: relative;
+        font-size: 14px;
+        border: none;
+        border-bottom: 1px solid #ddd;
+    }
+
+    td:last-child {
+        border-bottom: 0;
+    }
+
+    td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 15px;
+        width: 45%;
+        padding-left: 10px;
+        font-weight: 600;
+        text-align: left;
+        white-space: nowrap;
+    }
+}
+
+  

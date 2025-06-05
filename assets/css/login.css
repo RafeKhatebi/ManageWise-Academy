@@ -1,0 +1,151 @@
+/* Background with a school image (replace with your own image path) */
+.login-bg {
+    background: url('img/sc.jpg') no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem; /* padding for small devices */
+}
+
+/* Card styling for the login form */
+.login-card {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    padding: 2rem 2.5rem;
+    box-sizing: border-box;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Add subtle hover effect on larger devices */
+@media (hover: hover) and (pointer: fine) {
+    .login-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 40px rgba(31, 38, 135, 0.3);
+    }
+}
+
+/* Card header style */
+.card-header {
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+    background-color: #0dcaf0 !important;
+    color: white;
+    font-weight: 600;
+    font-size: 1.5rem;
+    padding: 1rem 1.5rem;
+    text-align: center;
+}
+
+/* Card body padding */
+.card-body {
+    padding: 1.5rem 1.5rem !important;
+}
+
+/* Card footer link style */
+.card-footer {
+    text-align: center;
+    padding: 1rem 1.5rem;
+}
+
+.card-footer a {
+    color: #0dcaf0;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.card-footer a:hover,
+.card-footer a:focus {
+    color: #0a95b8;
+    text-decoration: underline;
+    outline: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .login-card {
+        max-width: 90%;
+        padding: 1.5rem 2rem;
+    }
+
+    .card-header {
+        font-size: 1.3rem;
+        padding: 0.75rem 1rem;
+    }
+
+    .card-body {
+        padding: 1rem 1rem !important;
+    }
+
+    .card-footer {
+        padding: 0.75rem 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-bg {
+        padding: 1rem;
+    }
+
+    .login-card {
+        max-width: 100%;
+        border-radius: 12px;
+        padding: 1rem 1.25rem;
+    }
+
+    .card-header {
+        font-size: 1.1rem;
+        padding: 0.5rem 0.75rem;
+    }
+
+    .card-body {
+        padding: 0.75rem 0.75rem !important;
+    }
+
+    .card-footer {
+        padding: 0.5rem 0.75rem;
+    }
+}
+
+/* Make inputs and buttons full width inside the card */
+.login-card input[type="text"],
+.login-card input[type="password"],
+.login-card button {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    margin-top: 0.75rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.login-card input[type="text"]:focus,
+.login-card input[type="password"]:focus {
+    border-color: #0dcaf0;
+    outline: none;
+    box-shadow: 0 0 8px rgba(13, 202, 240, 0.5);
+}
+
+.login-card button {
+    background-color: #0dcaf0;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 1.25rem;
+    transition: background-color 0.3s ease;
+}
+
+.login-card button:hover,
+.login-card button:focus {
+    background-color: #0a95b8;
+    outline: none;
+}

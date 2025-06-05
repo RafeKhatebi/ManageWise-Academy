@@ -1,0 +1,96 @@
+.div_deg {
+    background-color: skyblue;
+    max-width: 400px;
+    width: 90%;
+    margin: 2rem auto;
+    padding: 2.5rem 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Form labels */
+label {
+    display: inline-block;
+    text-align: right;
+    width: 100px;
+    padding: 10px 15px 10px 0;
+    font-weight: 600;
+    vertical-align: top;
+    color: #333;
+}
+
+/* Form elements container */
+.div_deg form>div {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+/* Inputs and select styling */
+.div_deg input[type="number"],
+.div_deg input[type="date"],
+.div_deg select,
+.div_deg textarea {
+    flex: 1 1 250px;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.3s ease;
+}
+
+/* Textarea fix for height */
+.div_deg textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Input focus effect */
+.div_deg input[type="number"]:focus,
+.div_deg input[type="date"]:focus,
+.div_deg select:focus,
+.div_deg textarea:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Submit button styling */
+.div_deg input[type="submit"] {
+    margin-left: 105px;
+    /* align with inputs */
+    padding: 10px 25px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.div_deg input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    label {
+        width: 100%;
+        text-align: left;
+        padding-bottom: 5px;
+    }
+
+    .div_deg form>div {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .div_deg input[type="submit"] {
+        margin-left: 0;
+        width: 100%;
+    }
+}
