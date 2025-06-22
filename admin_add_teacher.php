@@ -1,79 +1,81 @@
 <?php
-
     session_start();
     if (! isset($_SESSION['username'])) {
         header("location:login.php");
     } elseif ($_SESSION['usertype'] == 'student') {
         header("location:login.php");
     }
+
     $host     = "localhost";
     $user     = "root";
     $password = "";
     $db       = "schoolproject";
+    $data     = mysqli_connect($host, $user, $password, $db);
 
-    $data = mysqli_connect($host, $user, $password, $db);
+    if ($data === false) {
+        die("Connection error: " . mysqli_connect_error());
+    }
+
     if (isset($_POST['add_teacher'])) {
-        $t_name        = $_POST['name'];
-        $t_description = $_POST['description'];
+        $t_name        = mysqli_real_escape_string($data, $_POST['name']);
+        $t_description = mysqli_real_escape_string($data, $_POST['description']);
         $file          = $_FILES['image']['name'];
         $dst           = "./image/" . $file;
         $dst_db        = "image/" . $file;
-        move_uploaded_file($_FILES['image']['tmp_name'], $dst);
-        $sql = "INSERT INTO teacher (name,description,image)
-    VALUES ('$t_name','$t_description','$dst_db')";
-        $result = mysqli_query($data, $sql);
-        if ($result) {
-            echo "<script type='text/javascript'>
-    alert('Data uploaded successfuly');
-    </script>
-    ";
-        } else {
-            echo "<script type='text/javascript'>
-    alert('Data not uploaded ');
-    </script>
-    ";
+
+        // Create image directory if it doesn't exist
+        if (! is_dir("./image/")) {
+            mkdir("./image/", 0777, true);
         }
 
+        move_uploaded_file($_FILES['image']['tmp_name'], $dst);
+
+        // Changed table name from 'teacher' to 'teachers_new'
+        $sql    = "INSERT INTO teachers_new (name, description, image) VALUES ('$t_name', '$t_description', '$dst_db')";
+        $result = mysqli_query($data, $sql);
+
         if ($result) {
-            header('location:admin_add_teacher.php');
+            echo "<script type='text/javascript'>
+        alert('Teacher added successfully');
+        window.location.href = 'admin_add_teacher.php';
+        </script>";
+        } else {
+            echo "<script type='text/javascript'>
+        alert('Error: " . mysqli_error($data) . "');
+        </script>";
         }
     }
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php include 'admin_css.php'; ?>
-      <link rel="stylesheet" href="./assets/css/common.css">
-
-
+    <link rel="stylesheet" href="./assets/css/common.css">
     <title>Admin Dashboard</title>
 </head>
-
 <body>
     <?php include 'admin_sidebar.php'; ?>
     <div class="content">
         <center>
-            <h1>Admin Teacher</h1>
+            <h1>Add Teacher</h1>
             <br>
             <div class="div_deg">
                 <form action="#" method="POST" enctype="multipart/form-data">
                     <div>
-                        <label>TeacherName</label>
-                        <input type="text" name="name">
+                        <label>Teacher Name</label>
+                        <input type="text" name="name" required>
                     </div>
                     <div>
                         <label>Description</label>
-                        <textarea name="description"></textarea>
+                        <textarea name="description" required></textarea>
                     </div>
                     <div>
                         <label>Image:</label>
-                        <input type="file" name="image">
+                        <input type="file" name="image" accept="image/*">
                     </div>
                     <div>
-
                         <input type="submit" name="add_teacher" value="Add Teacher" class="btn btn-primary">
                     </div>
                 </form>
@@ -81,5 +83,4 @@
         </center>
     </div>
 </body>
-
 </html>

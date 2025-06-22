@@ -17,22 +17,21 @@
         die("Connection error: " . mysqli_connect_error());
     }
 
-    // Handle delete request BEFORE selecting data
-    if (isset($_GET['teacher_id']) && ! empty($_GET['teacher_id'])) {
-        $t_id = mysqli_real_escape_string($data, $_GET['teacher_id']);
-        // Changed table name from 'teacher' to 'teachers_new'
-        $sql2    = "DELETE FROM teachers_new WHERE id='$t_id'";
+    // Handle delete request
+    if (isset($_GET['course_id']) && ! empty($_GET['course_id'])) {
+        $c_id    = mysqli_real_escape_string($data, $_GET['course_id']);
+        $sql2    = "DELETE FROM courses_new WHERE id='$c_id'";
         $result2 = mysqli_query($data, $sql2);
         if ($result2) {
-            header('location:admin_view_teacher.php');
+            header('location:admin_view_course.php');
             exit();
         } else {
             echo "<script>alert('Delete failed: " . mysqli_error($data) . "');</script>";
         }
     }
 
-    // Changed table name from 'teacher' to 'teachers_new'
-    $sql    = "SELECT * FROM teachers_new";
+    // Select all courses
+    $sql    = "SELECT * FROM courses_new ORDER BY created_at DESC";
     $result = mysqli_query($data, $sql);
 
     if (! $result) {
@@ -52,12 +51,13 @@
     <?php include 'admin_sidebar.php'; ?>
     <div class="content">
         <center>
-            <h1>View All Teacher Data</h1><br>
+            <h1>View All Courses</h1><br>
             <table>
                 <tr>
-                    <th>Teacher Name</th>
-                    <th>About Teacher</th>
-                    <th>Image</th>
+                    <th>Course Name</th>
+                    <th>Fee ($)</th>
+                    <th>Description</th>
+                    <th>Start Date</th>
                     <th>Delete</th>
                     <th>Update</th>
                 </tr>
@@ -67,24 +67,19 @@
                         ?>
                     <tr>
                         <td><?php echo htmlspecialchars($info['name']); ?></td>
+                        <td>$<?php echo number_format($info['fee'], 2); ?></td>
                         <td><?php echo htmlspecialchars($info['description']); ?></td>
-                        <td>
-                            <?php if (! empty($info['image']) && file_exists($info['image'])) {?>
-                                <img class="teacher img-fluid rounded" src="<?php echo htmlspecialchars($info['image']); ?>" alt="Teacher Image" style="width: 100px; height: 100px;">
-                            <?php } else {?>
-                                No Image
-                            <?php }?>
-                        </td>
+                        <td><?php echo htmlspecialchars($info['date']); ?></td>
                         <td>
                             <a class='btn btn-danger'
-                               onClick="javascript:return confirm('Are you sure you want to delete this teacher?');"
-                               href='admin_view_teacher.php?teacher_id=<?php echo $info['id']; ?>'>
+                               onClick="javascript:return confirm('Are you sure you want to delete this course?');"
+                               href='admin_view_course.php?course_id=<?php echo $info['id']; ?>'>
                                Delete
                             </a>
                         </td>
                         <td>
                             <a class='btn btn-primary'
-                               href='admin_update_teacher.php?teacher_id=<?php echo $info['id']; ?>'>
+                               href='admin_update_course.php?course_id=<?php echo $info['id']; ?>'>
                                Update
                             </a>
                         </td>
@@ -92,7 +87,7 @@
                 <?php
                     }
                     } else {
-                        echo "<tr><td colspan='5'>No teachers found</td></tr>";
+                        echo "<tr><td colspan='6'>No courses found</td></tr>";
                     }
                 ?>
             </table>

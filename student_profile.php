@@ -2,71 +2,90 @@
     session_start();
     if (! isset($_SESSION['username'])) {
         header("location:login.php");
+        exit();
     } elseif ($_SESSION['usertype'] == 'admin') {
-
-        header("location:login.php");
+        header("location:adminhome.php");
+        exit();
     }
+
     $host     = "localhost";
     $user     = "root";
     $password = "";
     $db       = "schoolproject";
+    $data     = mysqli_connect($host, $user, $password, $db);
 
-    $data   = mysqli_connect($host, $user, $password, $db);
-    $name   = $_SESSION['username'];
-    $sql    = "SELECT * FROM user WHERE username ='$name' ";
-    $result = mysqli_query($data, $sql);
-    $info   = mysqli_fetch_assoc($result);
-    if (isset($_POST['update_profile'])) {
-        $s_phone    = $_POST['phone'];
-        $s_email    = $_POST['email'];
-        $s_password = $_POST['password'];
-        $sql2       = "UPDATE user SET phone='$s_phone',email='$s_email',password='$s_password' WHERE username='$name'";
-        $result2    = mysqli_query($data, $sql2);
-        if ($result2) {
-            header('location:student_profile.php');
-        }
+    if ($data === false) {
+        die("Connection error: " . mysqli_connect_error());
     }
 
-?>
+    // Get student profile data
+    $username = $_SESSION['username'];
+    $sql      = "SELECT * FROM users WHERE username = '$username'";
+    $result   = mysqli_query($data, $sql);
 
+    if (! $result) {
+        die("Query error: " . mysqli_error($data));
+    }
+
+    $student_info = mysqli_fetch_assoc($result);
+
+    // Handle profile update
+    if (isset($_POST['update_profile'])) {
+        $new_username = mysqli_real_escape_string($data, $_POST['username']);
+        $new_password = mysqli_real_escape_string($data, $_POST['password']);
+        $email        = mysqli_real_escape_string($data, $_POST['email']);
+        $phone        = mysqli_real_escape_string($data, $_POST['phone']);
+
+        $update_sql    = "UPDATE users SET username='$new_username', password='$new_password', email='$email', phone='$phone' WHERE username='$username'";
+        $update_result = mysqli_query($data, $update_sql);
+
+        if ($update_result) {
+            $_SESSION['username'] = $new_username;
+            echo "<script>alert('Profile updated successfully!');</script>";
+            header("refresh:1;url=student_profile.php");
+        } else {
+            echo "<script>alert('Update failed: " . mysqli_error($data) . "');</script>";
+        }
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-   <link rel="stylesheet" href="./assets/css/common.css">
+    <title>My Profile</title>
     <?php include 'student_css.php'?>
+    <link rel="stylesheet" href="./assets/css/common.css">
 </head>
-
 <body>
-
     <?php include 'student_sidebar.php'?>
     <div class="content">
         <center>
-            <h1>Update Student</h1>
-            <br>
+            <h1>My Profile</h1>
             <div class="div_deg">
                 <form action="#" method="POST">
-                    <div><label>Phone</label>
-                        <input type="tel" name="phone" value="<?php echo "{$info['phone']}" ?>">
-                    </div>
-                    <div><label>Email</label>
-                        <input type="email" name="email" value="<?php echo "{$info['email']}" ?>">
-                    </div>
-                    <div><label>Password</label>
-                        <input type="text" name="password" value="<?php echo "{$info['password']}" ?>">
+                    <div>
+                        <label>Username:</label>
+                        <input type="text" name="username" value="<?php echo htmlspecialchars($student_info['username']); ?>" required>
                     </div>
                     <div>
-
-                        <input type="submit" name="update_profile"  class="btn btn-primary" value="Update">
+                        <label>Password:</label>
+                        <input type="password" name="password" value="<?php echo htmlspecialchars($student_info['password']); ?>" required>
+                    </div>
+                    <div>
+                        <label>Email:</label>
+                        <input type="email" name="email" value="<?php echo htmlspecialchars($student_info['email'] ?? ''); ?>">
+                    </div>
+                    <div>
+                        <label>Phone:</label>
+                        <input type="text" name="phone" value="<?php echo htmlspecialchars($student_info['phone'] ?? ''); ?>">
+                    </div>
+                    <div>
+                        <input type="submit" name="update_profile" value="Update Profile" class="btn btn-primary">
                     </div>
                 </form>
             </div>
         </center>
     </div>
-
 </body>
-
 </html>

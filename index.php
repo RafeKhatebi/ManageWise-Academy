@@ -13,7 +13,7 @@
     $password = "";
     $db       = "schoolproject";
 
-    $data   = mysqli_connect($host, $user, $password, $db, "3307");
+    $data   = mysqli_connect($host, $user, $password, $db);
     $sql    = "SELECT * FROM teacher";
     $result = mysqli_query($data, $sql);
 ?>

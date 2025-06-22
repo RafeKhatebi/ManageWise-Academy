@@ -13,7 +13,7 @@
     $db       = "schoolproject";
     $data     = mysqli_connect($host, $user, $password, $db);
 
-    $sql    = "SELECT * FROM user WHERE usertype='student'";
+    $sql    = "SELECT * FROM users WHERE usertype='student'";
     $result = mysqli_query($data, $sql);
 
 ?>

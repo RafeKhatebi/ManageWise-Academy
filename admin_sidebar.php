@@ -13,6 +13,6 @@
         <li><a href="admin_add_teacher.php">Add Teacher</a></li>
         <li><a href="admin_view_teacher.php">View Teachers</a></li>
         <li><a href="add_course.php">Add Courses</a></li>
-        <li><a href="">View Courses</a></li>
+        <li><a href="admin_view_course.php">View Courses</a></li>
     </ul>
 </aside>
