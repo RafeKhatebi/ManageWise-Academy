@@ -1,15 +1,6 @@
 <?php
-    session_start();
-    if (! isset($_SESSION['username'])) {
-        header("location:login.php");
-    } elseif ($_SESSION['usertype'] == 'student') {
-        header("location:login.php");
-    }
-    $host     = "localhost";
-    $user     = "root";
-    $password = "";
-    $db       = "schoolproject";
-    $data     = mysqli_connect($host, $user, $password, $db);
+    require_once 'dbconnection.php';
+
     if (isset($_POST['add_student'])) {
         $username      = $_POST['name'];
         $user_phone    = $_POST['phone'];
@@ -20,6 +11,17 @@
         $check      = "SELECT * FROM users WHERE username = '$username'";
         $check_user = mysqli_query($data, $check);
         $row_count  = mysqli_num_rows($check_user);
+        // Sanitize inputs
+        $username      = htmlspecialchars($username, ENT_QUOTES, 'UTF-8');
+        $user_phone    = htmlspecialchars($user_phone, ENT_QUOTES, 'UTF-8');
+        $user_email    = htmlspecialchars($user_email, ENT_QUOTES, 'UTF-8');
+        $user_password = htmlspecialchars($user_password, ENT_QUOTES, 'UTF-8');
+        // Validate inputs
+        $username      = trim($username);
+        $user_phone    = trim($user_phone);
+        $user_email    = trim($user_email);
+        $user_password = trim($user_password);
+        // Check if the user already exists
         if ($row_count == 1) {
             echo "<script type='text/javascript'>
         alert('User name is already exist. Try another one');

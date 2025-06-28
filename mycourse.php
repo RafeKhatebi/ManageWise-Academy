@@ -40,12 +40,12 @@
     <div class="content">
         <center>
             <h1>Available Courses</h1>
-            <p>Welcome,                        <?php echo htmlspecialchars($_SESSION['username']); ?>!</p>
+            <p>Welcome,<?php echo htmlspecialchars($_SESSION['username']); ?>!</p>
             <br>
             <table>
                 <tr>
                     <th>Course Name</th>
-                    <th>Fee ($)</th>
+                    <th>Fee (Af)</th>
                     <th>Description</th>
                     <th>Start Date</th>
                     <th>Action</th>

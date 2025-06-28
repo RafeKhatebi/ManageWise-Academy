@@ -34,7 +34,7 @@
     <div class="content">
         <center>
             <h1>My Academic Results</h1>
-            <p>Student:                        <?php echo htmlspecialchars($_SESSION['username']); ?></p>
+            <p>Student:<?php echo htmlspecialchars($_SESSION['username']); ?></p>
             <br>
 
             <!-- Sample Results Table -->
@@ -47,7 +47,7 @@
                     <th>Grade</th>
                     <th>Status</th>
                 </tr>
-                <!-- Sample data - you can replace this with dynamic data from database -->
+              
                 <tr>
                     <td>English Language</td>
                     <td>Assignment 1</td>
@@ -83,7 +83,7 @@
             <div class="summary-card">
                 <h3>Overall Performance</h3>
                 <p><strong>Total Courses:</strong> 3</p>
-                <p><strong>Average Grade:</strong> A-</p>
+                <p><strong>Average Grade:</strong> A</p>
                 <p><strong>Overall Percentage:</strong> 85%</p>
             </div>
         </center>

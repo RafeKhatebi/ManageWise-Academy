@@ -1,17 +1,5 @@
 <?php
-    session_start();
-    if (! isset($_SESSION['username'])) {
-        header("location:login.php");
-    } elseif ($_SESSION['usertype'] == 'student') {
-        header("location:login.php");
-    }
-
-    $host     = "localhost";
-    $user     = "root";
-    $password = "";
-    $db       = "schoolproject";
-    $data     = mysqli_connect($host, $user, $password, $db);
-
+    require_once 'dbconnection.php';
     if ($data === false) {
         die("Connection error: " . mysqli_connect_error());
     }
@@ -21,7 +9,17 @@
         $c_fee  = mysqli_real_escape_string($data, $_POST['fee']);
         $c_des  = mysqli_real_escape_string($data, $_POST['description']);
         $c_date = mysqli_real_escape_string($data, $_POST['date']);
-
+        // Sanitize inputs
+        $c_name = htmlspecialchars($c_name, ENT_QUOTES, 'UTF-8');
+        $c_fee  = htmlspecialchars($c_fee, ENT_QUOTES, 'UTF-8');
+        $c_des  = htmlspecialchars($c_des, ENT_QUOTES, 'UTF-8');
+        $c_date = htmlspecialchars($c_date, ENT_QUOTES, 'UTF-8');
+        // Validate inputs
+        $c_name = trim($c_name);
+        $c_fee  = trim($c_fee);
+        $c_des  = trim($c_des);
+        $c_date = trim($c_date);
+        // Check if any field is empty
         if (empty($c_name) || empty($c_fee) || empty($c_des) || empty($c_date)) {
             echo "<script>alert('Please fill all fields');</script>";
         } else {

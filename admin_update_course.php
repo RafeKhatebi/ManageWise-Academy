@@ -1,17 +1,5 @@
 <?php
-    session_start();
-    error_reporting(0);
-    if (! isset($_SESSION['username'])) {
-        header("location:login.php");
-    } elseif ($_SESSION['usertype'] == 'student') {
-        header("location:login.php");
-    }
-
-    $host     = "localhost";
-    $user     = "root";
-    $password = "";
-    $db       = "schoolproject";
-    $data     = mysqli_connect($host, $user, $password, $db);
+    require_once 'dbconnection.php';
 
     if ($data === false) {
         die("Connection error: " . mysqli_connect_error());
@@ -30,11 +18,21 @@
         if (mysqli_num_rows($result) == 0) {
             die("Course not found");
         }
-
+    //
         $info = $result->fetch_assoc();
     } else {
         die("Course ID not provided");
     }
+    // Sanitize inputs
+    $c_name = htmlspecialchars($c_name, ENT_QUOTES, 'UTF-8');
+    $c_fee  = htmlspecialchars($c_fee, ENT_QUOTES, 'UTF-8');
+    $c_des  = htmlspecialchars($c_des, ENT_QUOTES, 'UTF-8');
+    $c_date = htmlspecialchars($c_date, ENT_QUOTES, 'UTF-8');
+    // Validate inputs
+    $c_name = trim($c_name);
+    $c_fee  = trim($c_fee);
+    $c_des  = trim($c_des);
+    $c_date = trim($c_date);
 
     // Handle update
     if (isset($_POST['update_course'])) {
@@ -77,11 +75,11 @@
                     <div>
                         <label>Course Name:</label>
                         <select name="name" required>
-                            <option value="English Language"                                                             <?php echo($info['name'] == 'English Language') ? 'selected' : ''; ?>>English Language</option>
-                            <option value="JAVA Pro Language"                                                              <?php echo($info['name'] == 'JAVA Pro Language') ? 'selected' : ''; ?>>JAVA Pro Language</option>
-                            <option value="PHP Pro language"                                                             <?php echo($info['name'] == 'PHP Pro language') ? 'selected' : ''; ?>>PHP Pro language</option>
-                            <option value="Python Programming"                                                               <?php echo($info['name'] == 'Python Programming') ? 'selected' : ''; ?>>Python Programming</option>
-                            <option value="Web Development"                                                            <?php echo($info['name'] == 'Web Development') ? 'selected' : ''; ?>>Web Development</option>
+                            <option value="English Language"                                                                                                                                                                                     <?php echo($info['name'] == 'English Language') ? 'selected' : ''; ?>>English Language</option>
+                            <option value="JAVA Pro Language"                                                                                                                                                                                        <?php echo($info['name'] == 'JAVA Pro Language') ? 'selected' : ''; ?>>JAVA Pro Language</option>
+                            <option value="PHP Pro language"                                                                                                                                                                                     <?php echo($info['name'] == 'PHP Pro language') ? 'selected' : ''; ?>>PHP Pro language</option>
+                            <option value="Python Programming"                                                                                                                                                                                           <?php echo($info['name'] == 'Python Programming') ? 'selected' : ''; ?>>Python Programming</option>
+                            <option value="Web Development"                                                                                                                                                                                  <?php echo($info['name'] == 'Web Development') ? 'selected' : ''; ?>>Web Development</option>
                         </select>
                     </div>
                     <div>

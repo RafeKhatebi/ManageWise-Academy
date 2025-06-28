@@ -1,17 +1,5 @@
 <?php
-    session_start();
-    error_reporting(0);
-    if (! isset($_SESSION['username'])) {
-        header("location:login.php");
-    } elseif ($_SESSION['usertype'] == 'student') {
-        header("location:login.php");
-    }
-
-    $host     = "localhost";
-    $user     = "root";
-    $password = "";
-    $db       = "schoolproject";
-    $data     = mysqli_connect($host, $user, $password, $db);
+       require_once 'dbconnection.php';
 
     if ($data === false) {
         die("Connection error: " . mysqli_connect_error());
@@ -36,6 +24,13 @@
     } else {
         die("Teacher ID not provided");
     }
+    // Sanitize inputs
+    $t_name = htmlspecialchars($t_name, ENT_QUOTES, 'UTF-8');
+    $t_des  = htmlspecialchars($t_des, ENT_QUOTES, 'UTF-8');
+    // Validate inputs
+    $t_name = trim($t_name);
+    $t_des  = trim($t_des);
+    
 
     // Handle update
     if (isset($_POST['update_teacher'])) {

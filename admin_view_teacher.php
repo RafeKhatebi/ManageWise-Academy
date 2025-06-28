@@ -1,26 +1,12 @@
 <?php
-    session_start();
-    error_reporting(0);
-    if (! isset($_SESSION['username'])) {
-        header("location:login.php");
-    } elseif ($_SESSION['usertype'] == 'student') {
-        header("location:login.php");
-    }
-
-    $host     = "localhost";
-    $user     = "root";
-    $password = "";
-    $db       = "schoolproject";
-    $data     = mysqli_connect($host, $user, $password, $db);
-
+       require_once 'dbconnection.php';
     if ($data === false) {
         die("Connection error: " . mysqli_connect_error());
     }
 
     // Handle delete request BEFORE selecting data
     if (isset($_GET['teacher_id']) && ! empty($_GET['teacher_id'])) {
-        $t_id = mysqli_real_escape_string($data, $_GET['teacher_id']);
-        // Changed table name from 'teacher' to 'teachers_new'
+        $t_id    = mysqli_real_escape_string($data, $_GET['teacher_id']);
         $sql2    = "DELETE FROM teachers_new WHERE id='$t_id'";
         $result2 = mysqli_query($data, $sql2);
         if ($result2) {
@@ -31,8 +17,20 @@
         }
     }
 
-    // Changed table name from 'teacher' to 'teachers_new'
-    $sql    = "SELECT * FROM teachers_new";
+    // Pagination logic
+    $records_per_page = 10;
+    $page             = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+    $offset           = ($page - 1) * $records_per_page;
+
+    // Get total number of records
+    $total_records_sql    = "SELECT COUNT(*) AS total FROM teachers_new";
+    $total_records_result = mysqli_query($data, $total_records_sql);
+    $total_records_row    = mysqli_fetch_assoc($total_records_result);
+    $total_records        = $total_records_row['total'];
+    $total_pages          = ceil($total_records / $records_per_page);
+
+    // Select teachers for current page
+    $sql    = "SELECT * FROM teachers_new LIMIT $offset, $records_per_page";
     $result = mysqli_query($data, $sql);
 
     if (! $result) {
@@ -47,6 +45,8 @@
     <?php include 'admin_css.php'; ?>
     <link rel="stylesheet" href="./assets/css/adminView.css">
     <title>Admin Dashboard</title>
+       <link rel="stylesheet" href="./assets/css/pagination.css">
+
 </head>
 <body>
     <?php include 'admin_sidebar.php'; ?>
@@ -96,6 +96,30 @@
                     }
                 ?>
             </table>
+
+            <!-- Pagination links -->
+            <div class="pagination">
+                <?php if ($page > 1): ?>
+                    <a href="admin_view_teacher.php?page=<?php echo $page - 1; ?>">&laquo; Previous</a>
+                <?php else: ?>
+                    <a class="disabled">&laquo; Previous</a>
+                <?php endif; ?>
+
+                <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                    <a href="admin_view_teacher.php?page=<?php echo $i; ?>"<?php if ($i == $page) {
+        echo 'class="active"';
+}
+?>>
+                        <?php echo $i; ?>
+                    </a>
+                <?php endfor; ?>
+
+                <?php if ($page < $total_pages): ?>
+                    <a href="admin_view_teacher.php?page=<?php echo $page + 1; ?>">Next &raquo;</a>
+                <?php else: ?>
+                    <a class="disabled">Next &raquo;</a>
+                <?php endif; ?>
+            </div>
         </center>
     </div>
 </body>
