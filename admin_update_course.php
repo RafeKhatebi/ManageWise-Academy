@@ -24,7 +24,7 @@
         die("Course ID not provided");
     }
     // Sanitize inputs
-    $c_name = htmlspecialchars($c_name, ENT_QUOTES, 'UTF-8');
+    $c_name = htmlspecialchars($c_name, flags: ENT_QUOTES, 'UTF-8');
     $c_fee  = htmlspecialchars($c_fee, ENT_QUOTES, 'UTF-8');
     $c_des  = htmlspecialchars($c_des, ENT_QUOTES, 'UTF-8');
     $c_date = htmlspecialchars($c_date, ENT_QUOTES, 'UTF-8');
